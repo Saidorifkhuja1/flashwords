@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'user',
     'follower',
+    'post',
     'drf_yasg',
     "corsheaders",
     'rest_framework_simplejwt',
