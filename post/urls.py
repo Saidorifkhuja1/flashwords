@@ -8,5 +8,5 @@ urlpatterns = [
     path('update_post/<uuid:uid>/', PostUpdateView.as_view()),
     path('delete_post/<uuid:uid>/', PostDeleteView.as_view()),
     path('my_posts/', MyPostListView.as_view()),
-
+    path('users/<uuid:uid>/posts/', UserPostsAPIView.as_view()),
 ]

@@ -4,6 +4,15 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from follower.models import Following
 from .serializers import *
 
+class UserPostsAPIView(generics.ListAPIView):
+    serializer_class = PostSerializer1
+
+    def get_queryset(self):
+        user_uid = self.kwargs['uid']
+        return Post.objects.filter(owner__uid=user_uid).order_by('-uploaded_at')
+
+
+
 
 class PostCreateView(generics.CreateAPIView):
     queryset = Post.objects.all()

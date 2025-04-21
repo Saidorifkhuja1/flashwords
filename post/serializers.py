@@ -38,3 +38,10 @@ class PostCreateSerializer(serializers.ModelSerializer):
             raise ValidationError({"image_video": "Uploaded file must be a video."})
 
         return data
+
+class PostSerializer1(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ['uid', 'title', 'body', 'type', 'image_video', 'uploaded_at']
+
+

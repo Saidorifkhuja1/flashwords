@@ -2,6 +2,13 @@ from rest_framework import serializers
 from user.models import User
 from .models import Follower, Following
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['uid', 'name', 'last_name', 'email', 'role', 'status', 'avatar', 'mini_avatar']
+
+
+
 class UserSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

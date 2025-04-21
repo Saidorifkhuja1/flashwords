@@ -4,7 +4,14 @@ from rest_framework.permissions import IsAuthenticated
 from user.models import User
 from rest_framework.exceptions import NotFound
 from .models import Follower, Following
-from .serializers import FollowerSerializer, FollowingSerializer
+from .serializers import FollowerSerializer, FollowingSerializer, UserSerializer
+
+
+class UserListAPIView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
 
 class FollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
