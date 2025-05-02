@@ -3,9 +3,18 @@ from user.models import User
 from .models import Follower, Following
 
 class UserSerializer(serializers.ModelSerializer):
+    is_following = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ['uid', 'name', 'last_name', 'email', 'role', 'status', 'avatar', 'mini_avatar']
+        fields = ['uid', 'name', 'last_name', 'email', 'role', 'status', 'avatar', 'mini_avatar', 'is_following']
+
+    def get_is_following(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return Follower.objects.filter(user=obj, follower=request.user).exists()
+        return False
+
 
 
 
