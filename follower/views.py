@@ -5,12 +5,16 @@ from user.models import User
 from rest_framework.exceptions import NotFound
 from .models import Follower, Following
 from .serializers import FollowerSerializer, FollowingSerializer, UserSerializer
+from django.db.models import Q
 
 
 class UserListAPIView(generics.ListAPIView):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        current_user = self.request.user
+        return User.objects.exclude(uid=current_user.uid)
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
@@ -75,7 +79,7 @@ class RemoveFollowerAPIView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Only allow deletion of followers of the current user
+
         return Follower.objects.filter(user=self.request.user)
 
     def get_object(self):

@@ -1,13 +1,18 @@
 from rest_framework import serializers
+
+from user.models import User
+from user.serializers import UserProfileSerializer
 from .models import Post
 from django.core.exceptions import ValidationError
 
 
+
 class PostSerializer(serializers.ModelSerializer):
+    owner = UserProfileSerializer(read_only=True)
+
     class Meta:
         model = Post
-        fields = ['uid', 'title', 'body', 'type', 'image_video', 'owner']
-
+        fields = ['uid', 'title', 'body', 'type', 'image_video', 'uploaded_at', 'owner']
 
 
 
