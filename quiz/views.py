@@ -10,7 +10,12 @@ class QuizCreateAPIView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, IsTeacher]
 
 
-# 1. Umumiy quiz ro'yxati
+class QuizAPIView(generics.ListAPIView):
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+    permission_classes = [IsAuthenticated]
+
+
 class QuizAPIView(generics.ListAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
