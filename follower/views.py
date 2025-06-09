@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from user.models import User
 from rest_framework.exceptions import NotFound
 from .models import Follower, Following
-from .serializers import FollowerSerializer, FollowingSerializer, UserSerializer
+from .serializers import FollowerSerializer, FollowingSerializer, UserSerializer, EmptySerializer
 from django.db.models import Q
 
 
@@ -25,6 +25,7 @@ class UserListAPIView(generics.ListAPIView):
 
 class FollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = EmptySerializer
 
     def post(self, request, uid):
         try:
@@ -44,7 +45,7 @@ class FollowUserView(generics.GenericAPIView):
 
 class UnfollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
-
+    serializer_class = EmptySerializer
     def post(self, request, uid):
         try:
             to_unfollow = User.objects.get(uid=uid)
@@ -88,3 +89,6 @@ class RemoveFollowerAPIView(generics.DestroyAPIView):
             return Follower.objects.get(user=self.request.user, follower__uid=follower_uid)
         except Follower.DoesNotExist:
             raise NotFound("Follower not found.")
+
+
+

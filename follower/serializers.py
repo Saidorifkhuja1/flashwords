@@ -36,3 +36,9 @@ class FollowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Following
         fields = ['following', 'created_at']
+
+
+class EmptySerializer(serializers.Serializer):
+    pass
+
+

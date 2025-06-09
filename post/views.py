@@ -71,3 +71,5 @@ class MyPostListView(generics.ListAPIView):
     def get_queryset(self):
         # Return only posts created by the current user
         return Post.objects.filter(owner=self.request.user).order_by('-uploaded_at')
+
+
