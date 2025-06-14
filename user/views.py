@@ -9,9 +9,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import NotFound, AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
 from drf_yasg.utils import swagger_auto_schema
+from follower.serializers import FollowerSerializer, FollowingSerializer, UserSerializer
 from .serializers import *
 from .utils import unhash_token
 from django.contrib.auth.hashers import make_password, check_password
+from post.models import Post
+from follower.models import Follower, Following
+from post.serializers import  PostSerializer
+
+
 
 
 class SendVerificationCodeAPIView(APIView):
@@ -210,3 +216,39 @@ class PasswordResetConfirmView(APIView):
             return Response({"message": "Password has been reset successfully."})
         except User.DoesNotExist:
             return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+
+class TeacherProfileAPIView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'uid'
+    queryset = User.objects.filter(role__iexact='teacher')
+
+    def retrieve(self, request, *args, **kwargs):
+        teacher = self.get_object()
+
+        # Basic info
+        teacher_data = UserSerializer(teacher, context={'request': request}).data
+
+        # Posts
+        posts = Post.objects.filter(owner=teacher)
+        posts_data = PostSerializer(posts, many=True).data
+
+        # Followers
+        followers = Follower.objects.filter(user=teacher)
+        followers_data = FollowerSerializer(followers, many=True).data
+
+        # Following
+        followings = Following.objects.filter(user=teacher)
+        followings_data = FollowingSerializer(followings, many=True).data
+
+        return Response({
+            'teacher': teacher_data,
+            'posts': posts_data,
+            'followers': followers_data,
+            'followings': followings_data,
+            'is_followed_by_me': Follower.objects.filter(user=teacher, follower=request.user).exists()
+        })
+
