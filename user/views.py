@@ -252,3 +252,11 @@ class TeacherProfileAPIView(generics.RetrieveAPIView):
             'is_followed_by_me': Follower.objects.filter(user=teacher, follower=request.user).exists()
         })
 
+
+class AllUsersListAPIView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_context(self):
+        return {'request': self.request}

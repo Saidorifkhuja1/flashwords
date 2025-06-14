@@ -16,5 +16,6 @@ urlpatterns = [
     path('update_password/', PasswordUpdate.as_view()),
     path('delete_profile/<uuid:uid>/', DeleteProfileAPIView.as_view()),
     path('teacher_detail/<uuid:uid>/', TeacherProfileAPIView.as_view()),
+    path('all_users/', AllUsersListAPIView.as_view()),
 
 ]
