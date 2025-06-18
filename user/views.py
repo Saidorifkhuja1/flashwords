@@ -221,6 +221,7 @@ class PasswordResetConfirmView(APIView):
 
 
 
+
 class TeacherProfileAPIView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     lookup_field = 'uid'
@@ -232,24 +233,20 @@ class TeacherProfileAPIView(generics.RetrieveAPIView):
         # Basic info
         teacher_data = UserSerializer(teacher, context={'request': request}).data
 
-        # Posts
-        posts = Post.objects.filter(owner=teacher)
-        posts_data = PostSerializer(posts, many=True).data
+        # Count of posts, followers, followings
+        posts_count = Post.objects.filter(owner=teacher).count()
+        followers_count = Follower.objects.filter(user=teacher).count()
+        followings_count = Following.objects.filter(user=teacher).count()
 
-        # Followers
-        followers = Follower.objects.filter(user=teacher)
-        followers_data = FollowerSerializer(followers, many=True).data
-
-        # Following
-        followings = Following.objects.filter(user=teacher)
-        followings_data = FollowingSerializer(followings, many=True).data
+        # Check if current user follows this teacher
+        is_followed_by_me = Follower.objects.filter(user=teacher, follower=request.user).exists()
 
         return Response({
             'teacher': teacher_data,
-            'posts': posts_data,
-            'followers': followers_data,
-            'followings': followings_data,
-            'is_followed_by_me': Follower.objects.filter(user=teacher, follower=request.user).exists()
+            'posts_count': posts_count,
+            'followers_count': followers_count,
+            'followings_count': followings_count,
+            'is_followed_by_me': is_followed_by_me
         })
 
 

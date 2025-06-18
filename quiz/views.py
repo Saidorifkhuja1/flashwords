@@ -20,19 +20,21 @@ class QuizRetrieveView(generics.RetrieveAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
     permission_classes = [IsAuthenticated]
+    lookup_field = 'uid'
 
 
 class QuizUpdateView(generics.UpdateAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
     permission_classes = [IsAuthenticated, IsOwner]
+    lookup_field = 'uid'
 
 
 class QuizDeleteView(generics.DestroyAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
     permission_classes = [IsAuthenticated, IsOwner]
-
+    lookup_field = 'uid'
 
 class MyQuizListView(generics.ListAPIView):
     serializer_class = QuizSerializer
