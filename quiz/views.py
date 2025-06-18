@@ -10,39 +10,37 @@ class QuizCreateAPIView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, IsTeacher]
 
 
-class QuizAPIView(generics.ListAPIView):
+class QuizListView(generics.ListAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
     permission_classes = [IsAuthenticated]
 
 
-class QuizAPIView(generics.ListAPIView):
-    queryset = Quiz.objects.all()
-    serializer_class = QuizSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
 class QuizRetrieveView(generics.RetrieveAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class QuizUpdateView(generics.UpdateAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwner]
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class QuizDeleteView(generics.DestroyAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwner]
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class MyQuizListView(generics.ListAPIView):
     serializer_class = QuizSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Quiz.objects.filter(user=self.request.user)
+
+
+
+

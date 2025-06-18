@@ -4,7 +4,7 @@ from .models import Quiz
 class QuizSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quiz
-        fields = ['uid', 'title', 'questions']
+        fields = ['uid', 'title', 'questions', 'duration']
         read_only_fields = ['uid']
 
     def validate_questions(self, value):

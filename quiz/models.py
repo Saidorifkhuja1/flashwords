@@ -2,14 +2,15 @@ import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-
-User = get_user_model()
+import datetime
+from user.models import User
 
 
 class Quiz(models.Model):
     uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quizzes')
     title = models.CharField(max_length=255)
+    duration = models.DurationField(default=datetime.timedelta(minutes=30))
     questions = models.JSONField(help_text="""
         [
             {

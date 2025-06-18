@@ -24,8 +24,7 @@ class PostCreateView(generics.CreateAPIView):
     parser_classes = [MultiPartParser, FormParser]
 
     def perform_create(self, serializer):
-        """Validate before saving"""
-        serializer.save()
+        serializer.save(owner=self.request.user)
 
 
 class PostRetrieveView(generics.RetrieveAPIView):
@@ -43,9 +42,7 @@ class PostUpdateView(generics.UpdateAPIView):
     parser_classes = [MultiPartParser, FormParser]
 
     def perform_update(self, serializer):
-        """Validate before saving"""
-        serializer.save()
-
+        serializer.save(owner=self.request.user)
 
 class PostDeleteView(generics.DestroyAPIView):
     queryset = Post.objects.all()

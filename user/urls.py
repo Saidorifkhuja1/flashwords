@@ -19,3 +19,4 @@ urlpatterns = [
     path('all_users/', AllUsersListAPIView.as_view()),
 
 ]
+
