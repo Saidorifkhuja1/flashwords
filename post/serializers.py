@@ -71,3 +71,8 @@ class PostSerializer1(serializers.ModelSerializer):
         model = Post
         fields = ['uid', 'title', 'body', 'type', 'image_video', 'uploaded_at', 'content_type', 'quiz']
 
+        def get_quiz(self, obj):
+            if obj.content_type == 'quiz' and obj.quiz:
+                return str(obj.quiz.uid)
+            return None
+
