@@ -9,6 +9,7 @@ class Post(models.Model):
     TYPE_CHOICES = [
         ('image', 'Image'),
         ('video', 'Video'),
+        ('text', 'Text'),
     ]
 
     CONTENT_TYPE_CHOICES = [
@@ -17,11 +18,11 @@ class Post(models.Model):
     ]
 
     uid = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
-    title = models.CharField(max_length=250)
-    body = models.TextField()
+    title = models.CharField(max_length=250, null=True, blank=True)
+    body = models.TextField(null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    type = models.CharField(max_length=100, choices=TYPE_CHOICES)
-    content_type = models.CharField(max_length=10, choices=CONTENT_TYPE_CHOICES, default='post')
+    type = models.CharField(max_length=100, choices=TYPE_CHOICES, null=True, blank=True)
+    content_type = models.CharField(max_length=10, choices=CONTENT_TYPE_CHOICES, default='post', null=True, blank=True)
     image_video = models.FileField(upload_to='news/', null=True, blank=True)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True, blank=True, related_name='posts')
     uploaded_at = models.DateTimeField(default=timezone.now)

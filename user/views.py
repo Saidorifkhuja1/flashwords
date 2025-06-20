@@ -117,9 +117,23 @@ class RetrieveProfileView(generics.RetrieveAPIView):
             raise NotFound("User not found")
 
         user = get_object_or_404(User, uid=user_id)
-        serializer = self.get_serializer(user)
+        serializer = self.get_serializer(user, context={'request': request})
 
-        return Response(serializer.data)
+        # Get counts
+        posts_count = Post.objects.filter(owner=user).count()
+        followers_count = Follower.objects.filter(user=user).count()
+        followings_count = Following.objects.filter(user=user).count()
+
+        # Check if the current user follows this user
+        is_followed_by_me = Follower.objects.filter(user=user, follower=request.user).exists()
+
+        return Response({
+            'user': serializer.data,
+            'posts_count': posts_count,
+            'followers_count': followers_count,
+            'followings_count': followings_count,
+            'is_followed_by_me': is_followed_by_me
+        })
 
 
 class UpdateProfileView(generics.UpdateAPIView):
