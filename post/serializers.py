@@ -66,13 +66,19 @@ class PostCreateSerializer(serializers.ModelSerializer):
         return data
 
 
+
 class PostSerializer1(serializers.ModelSerializer):
+    quiz = serializers.SerializerMethodField()
+
     class Meta:
         model = Post
         fields = ['uid', 'title', 'body', 'type', 'image_video', 'uploaded_at', 'content_type', 'quiz']
 
-        def get_quiz(self, obj):
-            if obj.content_type == 'quiz' and obj.quiz:
-                return str(obj.quiz.uid)
-            return None
+    def get_quiz(self, obj):
+        if obj.content_type == 'quiz' and obj.quiz:
+            return str(obj.quiz.uid)
+        return None
+
+
+
 
