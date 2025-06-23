@@ -26,6 +26,7 @@ class Post(models.Model):
     image_video = models.FileField(upload_to='news/', null=True, blank=True)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True, blank=True, related_name='posts')
     uploaded_at = models.DateTimeField(default=timezone.now)
+    views = models.IntegerField(default=0)
 
     def clean(self):
         if self.content_type == 'quiz' and not self.quiz:
@@ -50,6 +51,17 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+class PostView(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    viewed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'post')
+
 
 
 

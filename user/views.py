@@ -2,7 +2,7 @@ import json, random
 from django.core.cache import cache
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404
-from rest_framework import status, generics, permissions
+from rest_framework import status, generics, permissions, parsers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -140,6 +140,7 @@ class UpdateProfileView(generics.UpdateAPIView):
     serializer_class = UserUpdateSerializer
     permission_classes = [permissions.IsAuthenticated]
     lookup_field = "uid"
+    parser_classes = [parsers.MultiPartParser, parsers.FormParser]
 
     def get_queryset(self):
         decoded_token = unhash_token(self.request.headers)
@@ -237,6 +238,7 @@ class PasswordResetConfirmView(APIView):
 
 
 class TeacherProfileAPIView(generics.RetrieveAPIView):
+    serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'uid'
     queryset = User.objects.filter(role__iexact='teacher')

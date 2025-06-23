@@ -1,8 +1,10 @@
+from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from follower.models import Following
 from .serializers import *
+from .models import Post, PostView
 
 class UserPostsAPIView(generics.ListAPIView):
     serializer_class = PostSerializer1
@@ -27,11 +29,32 @@ class PostCreateView(generics.CreateAPIView):
         serializer.save(owner=self.request.user)
 
 
+# class PostRetrieveView(generics.RetrieveAPIView):
+#     queryset = Post.objects.all()
+#     serializer_class = PostSerializer
+#     permission_classes = [IsAuthenticated]
+#     lookup_field = 'uid'
+
 class PostRetrieveView(generics.RetrieveAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'uid'
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        user = request.user
+
+        # Check if the user has already viewed this post
+        if not PostView.objects.filter(user=user, post=instance).exists():
+            PostView.objects.create(user=user, post=instance)
+            instance.views += 1
+            instance.save(update_fields=['views'])
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+
 
 
 class PostUpdateView(generics.UpdateAPIView):

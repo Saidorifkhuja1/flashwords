@@ -5,13 +5,20 @@ from .models import Post
 from quiz.models import Quiz
 
 
+from rest_framework import serializers
+from user.serializers import UserProfileSerializer
+from .models import Post
+
 class PostSerializer(serializers.ModelSerializer):
     owner = UserProfileSerializer(read_only=True)
     quiz = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['uid', 'title', 'body', 'type', 'image_video', 'uploaded_at', 'owner', 'content_type', 'quiz']
+        fields = [
+            'uid', 'title', 'body', 'type', 'image_video',
+            'uploaded_at', 'owner', 'content_type', 'quiz', 'views'
+        ]
 
     def get_quiz(self, obj):
         if obj.content_type == 'quiz' and obj.quiz:

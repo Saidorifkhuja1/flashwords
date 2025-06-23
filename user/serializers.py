@@ -21,7 +21,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'avatar', 'mini_avatar', 'role', 'status'
         ]
 
+
+
 class UserUpdateSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField(required=False)
+    mini_avatar = serializers.ImageField(required=False)
+
     class Meta:
         model = User
         fields = [
@@ -35,6 +40,23 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.save()
         return instance
+
+
+
+# class UserUpdateSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = [
+#             'name', 'last_name', 'email',
+#             'avatar', 'mini_avatar', 'role', 'status'
+#         ]
+#         read_only_fields = ['phone_number']
+#
+#     def update(self, instance, validated_data):
+#         for attr, value in validated_data.items():
+#             setattr(instance, attr, value)
+#         instance.save()
+#         return instance
 
 class PasswordResetSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True)
