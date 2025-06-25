@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'follower',
     'post',
     'quiz',
+    'book',
+    'article',
     'drf_yasg',
     "corsheaders",
     'rest_framework_simplejwt',

@@ -52,6 +52,8 @@ urlpatterns = [
     path('api/follower/', include('follower.urls')),
     path('api/post/', include('post.urls')),
     path('api/quiz/', include('quiz.urls')),
+    path('api/book/', include('book.urls')),
+    path('api/article/', include('article.urls')),
 
 
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
@@ -36,14 +37,14 @@ class Post(models.Model):
             raise ValidationError({"image_video": "Image or video must be provided if content_type is 'post'."})
 
         if self.image_video:
-            file_type = self.image_video.file.content_type
-            valid_image_types = ['image/jpeg', 'image/png', 'image/gif']
-            valid_video_types = ['video/mp4', 'video/webm', 'video/ogg']
+            ext = os.path.splitext(self.image_video.name)[1].lower()
+            valid_image_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+            valid_video_extensions = ['.mp4', '.webm', '.ogg']
 
-            if self.type == "image" and file_type not in valid_image_types:
-                raise ValidationError({"image_video": "Uploaded file must be an image."})
-            elif self.type == "video" and file_type not in valid_video_types:
-                raise ValidationError({"image_video": "Uploaded file must be a video."})
+            if self.type == "image" and ext not in valid_image_extensions:
+                raise ValidationError({"image_video": "Uploaded file must be an image (jpg, png, gif)."})
+            elif self.type == "video" and ext not in valid_video_extensions:
+                raise ValidationError({"image_video": "Uploaded file must be a video (mp4, webm, ogg)."})
 
     def save(self, *args, **kwargs):
         self.clean()

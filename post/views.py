@@ -6,14 +6,14 @@ from follower.models import Following
 from .serializers import *
 from .models import Post, PostView
 
-class UserPostsAPIView(generics.ListAPIView):
-    serializer_class = PostSerializer1
+class PostListView(generics.ListAPIView):
+    serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user_uid = self.kwargs['uid']
-        return Post.objects.filter(owner__uid=user_uid).order_by('-uploaded_at')
-
+        user = self.request.user
+        following_users = Following.objects.filter(user=user).values_list('following', flat=True)
+        return Post.objects.filter(owner__in=following_users).order_by('-uploaded_at')
 
 
 
