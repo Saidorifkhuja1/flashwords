@@ -45,10 +45,10 @@ class PostRetrieveView(generics.RetrieveAPIView):
         instance = self.get_object()
         user = request.user
 
-        print(f"User {user} is accessing post {instance.uid}")  # ✅ Debug
+        # print(f"User {user} is accessing post {instance.uid}")  # ✅ Debug
 
         if not PostView.objects.filter(user=user, post=instance).exists():
-            print("New view - counting it")  # ✅ Debug
+            # print("New view - counting it")  # ✅ Debug
             PostView.objects.create(user=user, post=instance)
             instance.views += 1
             instance.save(update_fields=['views'])
