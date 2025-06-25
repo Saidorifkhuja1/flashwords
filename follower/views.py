@@ -14,13 +14,12 @@ class UserListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         current_user = self.request.user
-        return User.objects.exclude(uid=current_user.uid)
+        return User.objects.filter(role__iexact='teacher').exclude(uid=current_user.uid)
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context['request'] = self.request
         return context
-
 
 
 class FollowUserView(generics.GenericAPIView):

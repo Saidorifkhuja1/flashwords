@@ -45,8 +45,10 @@ class PostRetrieveView(generics.RetrieveAPIView):
         instance = self.get_object()
         user = request.user
 
-        # Check if the user has already viewed this post
+        print(f"User {user} is accessing post {instance.uid}")  # ✅ Debug
+
         if not PostView.objects.filter(user=user, post=instance).exists():
+            print("New view - counting it")  # ✅ Debug
             PostView.objects.create(user=user, post=instance)
             instance.views += 1
             instance.save(update_fields=['views'])
@@ -79,9 +81,7 @@ class PostListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        following_users = Following.objects.filter(user=user).values_list('following', flat=True)
-        return Post.objects.filter(owner__in=following_users).order_by('-uploaded_at')
+        return Post.objects.all().order_by('-uploaded_at')
 
 
 class MyPostListView(generics.ListAPIView):
