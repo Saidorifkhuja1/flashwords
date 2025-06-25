@@ -84,12 +84,6 @@ class PostDeleteView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 
-class PostListView(generics.ListAPIView):
-    serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return Post.objects.all().order_by('-uploaded_at')
 
 
 class MyPostListView(generics.ListAPIView):
