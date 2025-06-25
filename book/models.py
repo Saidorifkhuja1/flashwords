@@ -10,7 +10,7 @@ class Book(models.Model):
     description = models.TextField(max_length=25000000, blank=True, null=True)
     author = models.CharField(max_length=250, blank=True, null=True)
     pdf = models.FileField(upload_to='books/', validators=[FileExtensionValidator(['pdf'])])
-    cover_image = models.ImageField(upload_to='books/covers/', default=False, blank=True, null=True)
+    cover_image = models.ImageField(upload_to='books/covers/', blank=True, null=True)
     views = models.IntegerField(default=0)
     created_at = models.DateTimeField(default=timezone.now)
 
