@@ -16,6 +16,8 @@ class Post(models.Model):
     CONTENT_TYPE_CHOICES = [
         ('post', 'Post'),
         ('quiz', 'Quiz'),
+        ('words', 'Words'),
+        ('youtube', 'Youtube'),
     ]
 
     uid = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
