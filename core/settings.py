@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'quiz',
     'book',
     'article',
+    'voice',
     'drf_yasg',
     "corsheaders",
     'rest_framework_simplejwt',
