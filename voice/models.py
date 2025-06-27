@@ -9,7 +9,6 @@ class Voice(models.Model):
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to='voice/images/', blank=True, null=True)
     time = models.CharField(max_length=50, help_text="Audio length, e.g. '3:20'")
-    publish_time = models.DateTimeField()
     audio_url = models.FileField(upload_to='voice/audios/')
     data = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
