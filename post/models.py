@@ -18,6 +18,9 @@ class Post(models.Model):
         ('quiz', 'Quiz'),
         ('words', 'Words'),
         ('youtube', 'Youtube'),
+        ('fill_the_gap', 'Fill_The_Gap'),
+        ('make_sentence', 'Make_Sentence'),
+        ('question', 'Question'),
     ]
 
     uid = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
