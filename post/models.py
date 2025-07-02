@@ -6,6 +6,7 @@ import uuid
 from user.models import User
 from quiz.models import Quiz
 
+
 class Post(models.Model):
     TYPE_CHOICES = [
         ('image', 'Image'),
@@ -21,7 +22,6 @@ class Post(models.Model):
     CONTENT_TYPE_CHOICES = [
         ('post', 'Post'),
         ('quiz', 'Quiz'),
-
     ]
 
     uid = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
@@ -36,11 +36,11 @@ class Post(models.Model):
     views = models.IntegerField(default=0)
 
     def clean(self):
-
+        # Quiz content validation - quiz required only for quiz content_type
         if self.content_type == 'quiz' and not self.quiz:
             raise ValidationError({"quiz": "Quiz must be provided if content_type is 'quiz'."})
 
-        
+        # File extension validation - only if file is provided
         if self.image_video:
             ext = os.path.splitext(self.image_video.name)[1].lower()
             valid_image_extensions = ['.jpg', '.jpeg', '.png', '.gif']
@@ -57,7 +57,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title or f"Post {self.uid}"
-
 
 
 class PostView(models.Model):

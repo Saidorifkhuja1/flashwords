@@ -26,7 +26,6 @@ class PostListView(generics.ListAPIView):
         return Post.objects.filter(owner__in=following_users).order_by('-uploaded_at')
 
 
-
 class PostCreateView(generics.CreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostCreateSerializer

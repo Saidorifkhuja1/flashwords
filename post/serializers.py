@@ -27,7 +27,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class PostCreateSerializer(serializers.ModelSerializer):
-    image_video = serializers.FileField(required=False,allow_null=True)
+    image_video = serializers.FileField(required=False, allow_null=True)
     quiz = serializers.UUIDField(required=False, allow_null=True)
 
     class Meta:
@@ -49,13 +49,16 @@ class PostCreateSerializer(serializers.ModelSerializer):
             except Quiz.DoesNotExist:
                 raise ValidationError({"quiz": "Quiz with this UID does not exist."})
             data['quiz'] = quiz_instance
-            data['image_video'] = None  # ignore media if it's a quiz
+            # image_video is optional for quiz - don't set to None
 
         # Post content validation
         elif content_type == 'post':
+            # image_video is now optional for post content too
             if quiz_uid:
-                data['quiz'] = None
+                data['quiz'] = None  # Clear quiz for post content
 
+        # File type validation - only if file is provided
+        if image_video:
             valid_image_types = ['image/jpeg', 'image/png', 'image/gif']
             valid_video_types = ['video/mp4', 'video/avi', 'video/mov', 'video/mkv']
             file_type = image_video.content_type
@@ -64,11 +67,6 @@ class PostCreateSerializer(serializers.ModelSerializer):
                 raise ValidationError({"image_video": "Uploaded file must be an image."})
             elif news_type == "video" and file_type not in valid_video_types:
                 raise ValidationError({"image_video": "Uploaded file must be a video."})
-
-            data['quiz'] = None
-
-        else:
-            raise ValidationError({"content_type": "Invalid content type. Must be 'post' or 'quiz'."})
 
         return data
 
