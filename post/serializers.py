@@ -53,8 +53,8 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
         # Post content validation
         elif content_type == 'post':
-            if not image_video:
-                raise ValidationError({"image_video": "This field is required for post content."})
+            # if not image_video:
+            #     raise ValidationError({"image_video": "This field is required for post content."})
 
             valid_image_types = ['image/jpeg', 'image/png', 'image/gif']
             valid_video_types = ['video/mp4', 'video/avi', 'video/mov', 'video/mkv']
