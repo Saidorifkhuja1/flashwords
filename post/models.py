@@ -39,8 +39,8 @@ class Post(models.Model):
         if self.content_type == 'quiz' and not self.quiz:
             raise ValidationError({"quiz": "Quiz must be provided if content_type is 'quiz'."})
 
-        # if self.content_type == 'post' and not self.image_video:
-        #     raise ValidationError({"image_video": "Image or video must be provided if content_type is 'post'."})
+        if self.content_type == 'post' and not self.image_video:
+            raise ValidationError({"image_video": "Image or video must be provided if content_type is 'post'."})
 
         if self.image_video:
             ext = os.path.splitext(self.image_video.name)[1].lower()
