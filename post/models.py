@@ -11,16 +11,17 @@ class Post(models.Model):
         ('image', 'Image'),
         ('video', 'Video'),
         ('text', 'Text'),
-    ]
-
-    CONTENT_TYPE_CHOICES = [
-        ('post', 'Post'),
-        ('quiz', 'Quiz'),
         ('words', 'Words'),
         ('youtube', 'Youtube'),
         ('fill_the_gap', 'Fill_The_Gap'),
         ('make_sentence', 'Make_Sentence'),
         ('question', 'Question'),
+    ]
+
+    CONTENT_TYPE_CHOICES = [
+        ('post', 'Post'),
+        ('quiz', 'Quiz'),
+        
     ]
 
     uid = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
