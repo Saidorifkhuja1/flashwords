@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['*']
 # CSRF_TRUSTED_ORIGINS = ['https://mytestprojects1.pythonanywhere.com']
 CORS_ALLOW_ALL_ORIGINS = True
 
+ASGI_APPLICATION = 'flashwords.asgi.application'
 
 # Application definition
 
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'rest_framework',
+    'channels',
     'user',
     'follower',
     'post',
@@ -76,6 +78,12 @@ MIDDLEWARE = [
 
 AUTH_USER_MODEL = "user.User"
 ROOT_URLCONF = 'core.urls'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    }
+}
 
 TEMPLATES = [
     {
