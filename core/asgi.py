@@ -1,32 +1,55 @@
-"""
-ASGI config for core project.
+# import os
+# import django
+# from channels.routing import ProtocolTypeRouter, URLRouter
+# from channels.auth import AuthMiddlewareStack
+# from django.core.asgi import get_asgi_application
+#
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+#
+# # ⚠️ Django'ni to‘liq yuklab olish
+# django.setup()
+#
+# # 🟢 Endi routing import qilinadi
+# from game.routing import websocket_urlpatterns
+#
+# application = ProtocolTypeRouter({
+#     "http": get_asgi_application(),
+#     "websocket": AuthMiddlewareStack(
+#         URLRouter(
+#             websocket_urlpatterns
+#         )
+#     ),
+# })
 
-It exposes the ASGI callable as a module-level variable named ``application``.
+# application = ProtocolTypeRouter({
+#     "http": get_asgi_application(),
+#     # ⚠️ AuthMiddlewareStack ni olib tashlang, test uchun
+#     "websocket": URLRouter(websocket_urlpatterns),
+# })
 
-For more information on this file, see
-https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/
-"""
-from channels.routing import ProtocolTypeRouter, URLRouter
-from channels.auth import AuthMiddlewareStack
-from django.core.asgi import get_asgi_application
+
+
+
+
 import os
 import django
-from game.routing import websocket_urlpatterns
-
-
-import os
-
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.auth import AuthMiddlewareStack
+from channels.security.websocket import AllowedHostsOriginValidator
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+django.setup()
 
-application = get_asgi_application()
-
-
+from game.routing import websocket_urlpatterns
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
-    "websocket": AuthMiddlewareStack(URLRouter(websocket_urlpatterns)),
+    "websocket": AllowedHostsOriginValidator(
+        AuthMiddlewareStack(
+            URLRouter(
+                websocket_urlpatterns
+            )
+        )
+    ),
 })
-
-

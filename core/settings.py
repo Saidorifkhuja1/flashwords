@@ -36,8 +36,8 @@ ALLOWED_HOSTS = ['*']
 # CSRF_TRUSTED_ORIGINS = ['https://mytestprojects1.pythonanywhere.com']
 CORS_ALLOW_ALL_ORIGINS = True
 
-ASGI_APPLICATION = 'flashwords.asgi.application'
-
+ASGI_APPLICATION = 'core.asgi.application'
+# ASGI_APPLICATION = 'flashwords.asgi.application'
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'rest_framework',
     'channels',
+    'channels_redis',
     'user',
     'follower',
     'post',
@@ -80,10 +81,21 @@ AUTH_USER_MODEL = "user.User"
 ROOT_URLCONF = 'core.urls'
 
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",
-    }
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
 }
+
+# Celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
 
 TEMPLATES = [
     {
