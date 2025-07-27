@@ -8,7 +8,7 @@ class UserCreationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = (
-            'phone_number', 'email', 'name', 'last_name', 'username',
+            'phone_number', 'email', 'name','bio','notification_token', 'last_name', 'username',
             'avatar', 'mini_avatar', 'role', 'status', 'is_verified'
         )
 
@@ -31,7 +31,7 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = (
-            'phone_number', 'email', 'name', 'last_name', 'username',
+            'phone_number', 'email', 'name','bio','notification_token', 'last_name', 'username',
             'avatar', 'mini_avatar', 'role', 'status', 'is_verified'
         )
 

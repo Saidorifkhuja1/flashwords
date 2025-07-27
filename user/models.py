@@ -56,6 +56,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=50, blank=True, null=True, unique=True)
     phone_number = models.CharField(validators=[PHONE_REGEX], max_length=21, unique=True, default="+998931112233", blank=True, null=True)
     email = models.EmailField(unique=True)
+    notification_token = models.CharField(max_length=250, blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
     avatar = models.ImageField(upload_to='accounts/avatars/', blank=True, null=True)
     mini_avatar = models.ImageField(upload_to='accounts/mini_avatars/', blank=True, null=True)
     role = models.CharField(max_length=10, choices=ROlE_CHOICES, default='student')

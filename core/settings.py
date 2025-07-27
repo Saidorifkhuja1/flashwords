@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'quiz',
     'book',
     'article',
+    'django_filters',
     'voice',
     'game',
     'drf_yasg',

@@ -8,6 +8,7 @@ urlpatterns = [
     path('verify_code/', VerifyCodeAPIView.as_view(), name='verify-code'),
     path('user/reset-password/', PasswordResetRequestView.as_view(), name='reset-password'),
     path('user/reset-password/confirm/', PasswordResetConfirmView.as_view(), name='reset-password-confirm'),
+    path('search-teachers/', TeacherSearchAPIView.as_view()),
 
 
     path('login/', TokenObtainPairView.as_view()),

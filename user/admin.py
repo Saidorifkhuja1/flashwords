@@ -8,7 +8,7 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserCreationForm
 
     list_display = (
-        'phone_number', 'email', 'name', 'last_name', 'username',
+        'phone_number', 'email', 'name','bio', 'notification_token' ,'last_name', 'username',
         'role', 'status', 'is_verified', 'is_admin', 'is_superuser'
     )
     list_filter = ('is_admin', 'is_superuser', 'role', 'status', 'is_verified')
@@ -16,7 +16,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         ('Personal info', {
             'fields': (
-                'phone_number', 'email', 'name', 'last_name', 'username',
+                'phone_number', 'email', 'name','bio','notification_token', 'last_name', 'username',
                 'avatar', 'mini_avatar', 'role', 'status', 'is_verified', 'password'
             )
         }),
@@ -27,7 +27,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': (
-                'phone_number', 'email', 'name', 'last_name', 'username',
+                'phone_number', 'email', 'name', 'bio','notification_token','last_name', 'username',
                 'avatar', 'mini_avatar', 'role', 'status', 'is_verified',
                 'password1', 'password2', 'is_admin', 'is_superuser'
             ),

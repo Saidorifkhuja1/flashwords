@@ -2,7 +2,7 @@ import json, random
 from django.core.cache import cache
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404
-from rest_framework import status, generics, permissions, parsers
+from rest_framework import status, generics, permissions, parsers, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -273,3 +273,13 @@ class AllUsersListAPIView(generics.ListAPIView):
 
     def get_serializer_context(self):
         return {'request': self.request}
+
+
+
+
+class TeacherSearchAPIView(generics.ListAPIView):
+    serializer_class = UserSerializerSearch
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = User.objects.filter(role="Teacher", status="active")
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['username']  # faqat username bo‘yicha qidiradi

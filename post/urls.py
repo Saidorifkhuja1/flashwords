@@ -9,4 +9,5 @@ urlpatterns = [
     path('delete_post/<uuid:uid>/', PostDeleteView.as_view()),
     path('my_posts/', MyPostListView.as_view()),
     path('users/<uuid:uid>/posts/', UserPostsAPIView.as_view()),
+    path('following-posts-custom/', FollowingPostsWithCustomFilterView.as_view())
 ]

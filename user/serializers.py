@@ -17,7 +17,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'uid', 'phone_number', 'name', 'last_name', 'email',
+            'uid', 'phone_number', 'name','bio','notification_token', 'last_name', 'email',
             'avatar', 'mini_avatar', 'role', 'status'
         ]
 
@@ -76,3 +76,8 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     new_password = serializers.CharField(min_length=6)
 
 
+
+class UserSerializerSearch(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['uid', 'name', 'bio','notification_token',  'last_name', 'username', 'avatar', 'email', 'role']
