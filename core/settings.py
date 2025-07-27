@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     'article',
     'django_filters',
     'voice',
-    'game',
     'drf_yasg',
     "corsheaders",
     'rest_framework_simplejwt',
