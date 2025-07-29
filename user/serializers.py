@@ -17,7 +17,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'uid', 'phone_number', 'name','bio','notification_token', 'last_name', 'email',
+            'uid', 'username', 'phone_number', 'name','bio','notification_token', 'last_name', 'email',
             'avatar', 'mini_avatar', 'role', 'status'
         ]
 
@@ -30,7 +30,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'name', 'last_name', 'email',
+            'name', 'last_name', 'email','notification_token',
             'avatar', 'mini_avatar', 'role', 'status'
         ]
         read_only_fields = ['phone_number']
@@ -80,4 +80,4 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 class UserSerializerSearch(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['uid', 'name', 'bio','notification_token',  'last_name', 'username', 'avatar', 'email', 'role']
+        fields = ['uid', 'name', 'bio','notification_token',  'last_name', 'mini_avatar', 'username', 'avatar', 'email', 'role']
