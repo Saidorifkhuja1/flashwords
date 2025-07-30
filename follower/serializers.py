@@ -9,13 +9,15 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['uid', 'name', 'last_name', 'email', 'role', 'status', 'avatar', 'mini_avatar', 'is_following']
+        fields = [
+            'uid', 'name', 'last_name', 'email', 'username', 'bio',
+            'role', 'status', 'avatar', 'mini_avatar', 'is_following'
+        ]
 
     def get_is_following(self, obj):
         request = self.context.get('request')
         if request and request.user.is_authenticated:
             return Follower.objects.filter(user=obj, follower=request.user).exists()
-        return False
 
 
 
