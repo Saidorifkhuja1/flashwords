@@ -14,10 +14,12 @@ class VerifyCodeSerializer(serializers.Serializer):
     code = serializers.CharField(min_length=6, max_length=6)
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(allow_null=True, required=False)
+    bio = serializers.CharField(allow_null=True, required=False)
     class Meta:
         model = User
         fields = [
-            'uid', 'username', 'phone_number', 'name','bio','notification_token', 'last_name', 'email',
+            'uid', 'username', 'phone_number', 'name', 'bio' ,'notification_token', 'last_name', 'email',
             'avatar', 'mini_avatar', 'role', 'status'
         ]
 
@@ -26,12 +28,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     avatar = serializers.ImageField(required=False)
     mini_avatar = serializers.ImageField(required=False)
+    username = serializers.CharField(allow_null=True, required=False)
+    bio = serializers.CharField(allow_null=True, required=False)
 
     class Meta:
         model = User
         fields = [
-            'name', 'last_name', 'email','notification_token',
-            'avatar', 'mini_avatar', 'role', 'status'
+            'name', 'last_name','username', 'email','notification_token',
+            'avatar', 'mini_avatar', 'role','bio', 'status'
         ]
         read_only_fields = ['phone_number']
 
@@ -78,6 +82,10 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
 
 class UserSerializerSearch(serializers.ModelSerializer):
+    username = serializers.CharField(allow_null=True, required=False)
+    bio = serializers.CharField(allow_null=True, required=False)
     class Meta:
         model = User
         fields = ['uid', 'name', 'bio','notification_token',  'last_name', 'mini_avatar', 'username', 'avatar', 'email', 'role']
+
+

@@ -247,7 +247,7 @@ class TeacherProfileAPIView(generics.RetrieveAPIView):
         teacher = self.get_object()
 
         # Basic info
-        teacher_data = UserSerializer(teacher, context={'request': request}).data
+        teacher_data = UserProfileSerializer(teacher, context={'request': request}).data
 
         # Count of posts, followers, followings
         posts_count = Post.objects.filter(owner=teacher).count()
