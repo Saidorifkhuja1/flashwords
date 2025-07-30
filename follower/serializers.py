@@ -4,6 +4,8 @@ from .models import Follower, Following
 
 class UserSerializer(serializers.ModelSerializer):
     is_following = serializers.SerializerMethodField()
+    username = serializers.CharField(allow_null=True, required=False)
+    bio = serializers.CharField(allow_null=True, required=False)
 
     class Meta:
         model = User
@@ -19,9 +21,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserSimpleSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(allow_null=True, required=False)
+    bio = serializers.CharField(allow_null=True, required=False)
+
     class Meta:
         model = User
-        fields = ['uid', 'name', 'last_name', 'avatar']
+        fields = ['uid', 'name', 'last_name', 'username', 'bio', 'avatar']
 
 class FollowerSerializer(serializers.ModelSerializer):
     follower = UserSimpleSerializer()
